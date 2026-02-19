@@ -69,11 +69,6 @@ We recommend storing your key securely in environment variables:
 - `client.collaborators`
 - `client.labels`
 
-Info endpoints:
-- `client.info.sources()` -> `/sources`
-- `client.info.status()` -> `/status`
-- `client.info.definitions()` -> `/definitions`
-
 ---
 
 ## Error Handling
