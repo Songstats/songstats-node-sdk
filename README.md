@@ -2,7 +2,8 @@
 
 Official Node.js client for the **Songstats Enterprise API**.
 
-📚 API Documentation: https://docs.songstats.com
+📚 API Documentation: https://docs.songstats.com  
+🔑 API Key Access: Please contact api@songstats.com
 
 ---
 
