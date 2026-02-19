@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.2.0] - 2026-02-19
+
+### Changed
+
+- Updated `README.md` installation commands for published package usage.
+
 ## [0.1.0] - 2026-02-19
 
 ### Added

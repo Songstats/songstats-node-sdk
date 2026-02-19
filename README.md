@@ -15,13 +15,15 @@ Official Node.js client for the **Songstats Enterprise API**.
 
 ## Installation
 
-Install from npm (when published):
+Install with your package manager of choice:
 
     npm install songstats-node-sdk
 
-Or install locally from this repo:
+    yarn add songstats-node-sdk
 
-    npm install /Users/Oskar/1001tl/songstats-node-sdk
+    pnpm add songstats-node-sdk
+
+    bun add songstats-node-sdk
 
 ---
 
@@ -88,15 +90,6 @@ try {
   }
 }
 ```
-
----
-
-## Development
-
-To work on the SDK locally:
-
-    cd /Users/Oskar/1001tl/songstats-node-sdk
-    npm test
 
 ---
 
