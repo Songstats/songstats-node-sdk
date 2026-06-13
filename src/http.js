@@ -1,6 +1,6 @@
 import { SongstatsAPIError, SongstatsTransportError } from "./errors.js";
 
-const DEFAULT_BASE_URL = "https://data.songstats.com";
+const DEFAULT_BASE_URL = "https://api.songstats.com";
 const DEFAULT_TIMEOUT_MS = 30_000;
 const RETRYABLE_STATUS_CODES = new Set([429, 500, 502, 503, 504]);
 
@@ -69,7 +69,7 @@ export class SongstatsHTTPClient {
     timeoutMs = DEFAULT_TIMEOUT_MS,
     maxRetries = 2,
     fetchImpl,
-    userAgent = "songstats-node-sdk/0.2.0",
+    userAgent = "songstats-node-sdk/0.2.1",
   } = {}) {
     if (!apiKey) {
       throw new Error("apiKey is required");

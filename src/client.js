@@ -10,7 +10,7 @@ import {
 export class SongstatsClient {
   constructor({
     apiKey,
-    baseUrl = "https://data.songstats.com",
+    baseUrl = "https://api.songstats.com",
     timeoutMs = 30_000,
     maxRetries = 2,
     fetchImpl,
