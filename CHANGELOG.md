@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## Unreleased
+
+### Fixed
+
+- Retry only GET and HEAD requests; ambiguous write failures are surfaced after one attempt.
+
 ## [0.2.1] - 2026-06-14
 
 ### Changed

@@ -97,9 +97,10 @@ export class SongstatsHTTPClient {
   async request(method, path, { params, json, headers } = {}) {
     const endpoint = `/enterprise/v1/${path.replace(/^\/+/, "")}`;
     const url = `${this.baseUrl}${endpoint}${serializeParams(params)}`;
+    const retries = ["GET", "HEAD"].includes(method.toUpperCase()) ? this.maxRetries : 0;
     let lastError;
 
-    for (let attempt = 0; attempt <= this.maxRetries; attempt += 1) {
+    for (let attempt = 0; attempt <= retries; attempt += 1) {
       let response;
       let payload;
       let transportFailed = false;
@@ -126,7 +127,7 @@ export class SongstatsHTTPClient {
           body: json ? JSON.stringify(json) : undefined,
         });
 
-        if (RETRYABLE_STATUS_CODES.has(response.status) && attempt < this.maxRetries) {
+        if (RETRYABLE_STATUS_CODES.has(response.status) && attempt < retries) {
           await response.body?.cancel();
         } else {
           payload = await parseResponse(response);
@@ -139,7 +140,7 @@ export class SongstatsHTTPClient {
       }
 
       if (transportFailed) {
-        if (attempt < this.maxRetries) {
+        if (attempt < retries) {
           await sleep(200 * 2 ** attempt);
           continue;
         }
@@ -147,7 +148,7 @@ export class SongstatsHTTPClient {
         throw new SongstatsTransportError(String(lastError?.message || lastError), lastError);
       }
 
-      if (RETRYABLE_STATUS_CODES.has(response.status) && attempt < this.maxRetries) {
+      if (RETRYABLE_STATUS_CODES.has(response.status) && attempt < retries) {
         await sleep(200 * 2 ** attempt);
         continue;
       }
