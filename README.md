@@ -102,3 +102,7 @@ This SDK follows Semantic Versioning (SemVer).
 ## License
 
 MIT
+
+## HTTP transport behavior
+
+`timeoutMs` covers each attempt through the complete response body. Transport failures, including body-read failures, use the configured retry limit. Retried HTTP responses are cancelled before the next attempt. Redirects are rejected to prevent forwarding the API key to another endpoint; configure `baseUrl` to the final API origin. Empty responses return `null`, and malformed JSON is returned as `{ raw: text }`.

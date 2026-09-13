@@ -48,18 +48,21 @@ function toHeadersObject(headers) {
 
 async function parseResponse(response) {
   const contentType = response.headers.get("content-type") || "";
+  const text = await response.text();
+
+  if (!text.length) {
+    return null;
+  }
 
   if (contentType.includes("application/json")) {
     try {
-      return await response.json();
+      return JSON.parse(text);
     } catch {
-      const text = await response.text();
-      return text.length ? { raw: text } : null;
+      return { raw: text };
     }
   }
 
-  const text = await response.text();
-  return text.length ? { raw: text } : null;
+  return { raw: text };
 }
 
 export class SongstatsHTTPClient {
@@ -98,6 +101,8 @@ export class SongstatsHTTPClient {
 
     for (let attempt = 0; attempt <= this.maxRetries; attempt += 1) {
       let response;
+      let payload;
+      let transportFailed = false;
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
 
@@ -115,30 +120,37 @@ export class SongstatsHTTPClient {
       try {
         response = await this.fetchImpl(url, {
           method,
+          redirect: "error",
           signal: controller.signal,
           headers: requestHeaders,
           body: json ? JSON.stringify(json) : undefined,
         });
-      } catch (error) {
-        lastError = error;
-        clearTimeout(timeoutId);
 
+        if (RETRYABLE_STATUS_CODES.has(response.status) && attempt < this.maxRetries) {
+          await response.body?.cancel();
+        } else {
+          payload = await parseResponse(response);
+        }
+      } catch (error) {
+        transportFailed = true;
+        lastError = error;
+      } finally {
+        clearTimeout(timeoutId);
+      }
+
+      if (transportFailed) {
         if (attempt < this.maxRetries) {
           await sleep(200 * 2 ** attempt);
           continue;
         }
 
-        throw new SongstatsTransportError(String(error?.message || error), error);
+        throw new SongstatsTransportError(String(lastError?.message || lastError), lastError);
       }
-
-      clearTimeout(timeoutId);
 
       if (RETRYABLE_STATUS_CODES.has(response.status) && attempt < this.maxRetries) {
         await sleep(200 * 2 ** attempt);
         continue;
       }
-
-      const payload = await parseResponse(response);
 
       if (response.status >= 200 && response.status <= 299) {
         return payload;
