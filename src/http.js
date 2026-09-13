@@ -72,7 +72,7 @@ export class SongstatsHTTPClient {
     timeoutMs = DEFAULT_TIMEOUT_MS,
     maxRetries = 2,
     fetchImpl,
-    userAgent = "songstats-node-sdk/0.2.1",
+    userAgent = "songstats-node-sdk/0.2.2",
   } = {}) {
     if (!apiKey) {
       throw new Error("apiKey is required");
