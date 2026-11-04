@@ -112,3 +112,15 @@ MIT
 `maxRetries` applies only to GET and HEAD requests. Write requests are attempted once
 because a transport failure or server error can occur after a write has already
 succeeded. Check the resulting state before retrying a write.
+
+## Albums (beta)
+
+Requires Songstats album beta access. Member/entity keys must also supply an artist or label parent. Album info includes paginated known tracks; pass its returned `next_cursor` as `cursor` to the same info method. Artist and label catalogs accept `catalog_type=albums`; track catalogs remain the default.
+
+```
+client.albums.info({ songstats_album_id: "..." })
+client.albums.stats({ songstats_album_id: "...", source: "spotify" })
+client.artists.catalog({ songstats_artist_id: "...", catalog_type: "albums" })
+```
+
+Album stats default to release-member recording counters. Shared counters are not release-exclusive. `scope=recording_catalog` opts into wider recording performance and is unavailable for label-scoped calls. Popularity may be unavailable or stale. No separate album catalog/tracks method is provided.

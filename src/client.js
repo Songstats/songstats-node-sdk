@@ -1,5 +1,6 @@
 import { SongstatsHTTPClient } from "./http.js";
 import {
+  AlbumsAPI,
   ArtistsAPI,
   CollaboratorsAPI,
   InfoAPI,
@@ -24,6 +25,7 @@ export class SongstatsClient {
     });
 
     this.info = new InfoAPI(this._http);
+    this.albums = new AlbumsAPI(this._http);
     this.tracks = new TracksAPI(this._http);
     this.artists = new ArtistsAPI(this._http);
     this.collaborators = new CollaboratorsAPI(this._http);
