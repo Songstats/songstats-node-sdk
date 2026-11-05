@@ -123,4 +123,4 @@ client.albums.stats({ songstats_album_id: "...", source: "spotify" })
 client.artists.catalog({ songstats_artist_id: "...", catalog_type: "albums" })
 ```
 
-Album stats default to release-member recording counters. Shared counters are not release-exclusive. `scope=recording_catalog` opts into wider recording performance and is unavailable for label-scoped calls. Popularity may be unavailable or stale. No separate album catalog/tracks method is provided.
+Album stats default to release-member recording counters. Shared counters are not release-exclusive. `scope=recording_catalog` opts into wider recording performance and is unavailable for label-scoped calls. Spotify and TIDAL return `popularity_current` (0–100); Deezer returns `saves_total` (album favourites). Each uses the highest measured value among eligible releases on that platform, not a sum across editions. Values may be unavailable or stale. No separate album catalog/tracks method is provided.
