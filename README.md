@@ -113,9 +113,9 @@ MIT
 because a transport failure or server error can occur after a write has already
 succeeded. Check the resulting state before retrying a write.
 
-## Albums (beta)
+## Albums
 
-Requires Songstats album beta access. Member/entity keys must also supply an artist or label parent. Album info includes paginated known tracks; pass its returned `next_cursor` as `cursor` to the same info method. Artist and label catalogs accept `catalog_type=albums`; track catalogs remain the default.
+Requires Songstats album access. Member/entity keys must also supply an artist or label parent. Album info includes paginated known tracks; pass its returned `next_cursor` as `cursor` to the same info method. Artist and label catalogs accept `catalog_type=albums`; track catalogs remain the default.
 
 ```
 client.albums.info({ songstats_album_id: "..." })
